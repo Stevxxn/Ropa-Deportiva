@@ -1,0 +1,103 @@
+@charset "UTF-8";
+h1{
+	color:#fb8500;
+	font-family:ComicSans MS;
+	font-size:50px;
+	text-align:center;
+}
+#favorito {
+	border: 3px groove #99c;
+	color: black;
+}
+.destacado { 
+  font-weight: bold; 
+  color: #023047; 
+  text-align: center;  
+}
+p { 
+  font-family: verdana; 
+  font-size: 14px; 
+  text-align: justify; 
+} 
+header, nav, section, article, footer{ 
+ border:1px solid black; 
+ display: block; 
+} 
+header { 
+  background-color: #8ecae6; 
+  padding: 20px 10px; 
+  align-items: center;
+  text-align: center;
+}
+nav { 
+  overflow: hidden; 
+  background-color: #219ebc; 
+  padding: 10px 5px; 
+} 
+.agrupar 
+{ 
+ border:1px; 
+ margin: auto; 
+ width:1500px;  
+} 
+section {  
+ margin:20px;
+ padding: 20px;
+ width: 600px;
+ float:left;
+ text-align: center;
+ background:#FFB703; 
+
+}
+aside{ 
+ margin: 20px; 
+ padding: 10px; 
+ width:600px; 
+ border: 2px; 
+ float:right; 
+ background:#FFB703; 
+ align-items: center;  
+} 
+footer { 
+  overflow: hidden; 
+  background-color: #a2d2ff; 
+  padding: 20px 10px; 
+  align-items: center;
+  text-align: center; 
+  clear:both; 
+} 
+footer li{ 
+ list-style: none;  
+ font:bold 14px verdana; 
+ padding: 10px; 
+ display: inline-block;  
+} 
+nav a { 
+  float: left; 
+  color: black; 
+  text-align: center; 
+  padding: 12px; 
+  text-decoration: underline; 
+  font-size: 18px;  
+  line-height: 25px; 
+  border-radius: 4px; 
+} 
+nav a:hover { 
+  background-color: #ddd; 
+  border:1px solid gray; 
+  color: black; 
+} 
+nav a.active { 
+  background-color: dodgerblue; 
+  border:1px solid rgb(0, 0, 0); 
+  color: rgb(64, 0, 128); 
+} 
+#image{
+	border: 5px solid black;
+	display: inline-block;
+}
+#construccion{
+	background: url("../images/construccion.png") no-repeat center center fixed;
+	border: 5px solid black;
+    display: inline-block;
+}
