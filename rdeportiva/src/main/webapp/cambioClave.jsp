@@ -17,40 +17,37 @@
         </header>
         
         <nav>
-            <a href="index.jsp">Home</a>
-            <a href="consulta.jsp">Ver Productos</a>
-            <a href="login.jsp">Login</a>
+            <%
+	        	String usuario;
+				HttpSession sesion = request.getSession();
+				if (sesion.getAttribute("usuario") == null) //Se verifica si existe la variable
+				{
+					%>
+					<jsp:forward page="login.jsp">
+					<jsp:param name="error" value="Debe registrarse en el sistema."/>
+					</jsp:forward>
+					<%
+				}
+				else
+				{
+				usuario=(String)sesion.getAttribute("usuario"); //Se devuelve los valores de atributos
+				int perfil=(Integer)sesion.getAttribute("perfil");
+        		Pagina pag=new Pagina();
+				String menu=pag.mostrarMenu(perfil);
+				out.print(menu);
+			%>
         </nav>
         
 		     <div class="agrupar">
 		       <section>
-		       		<%
-						String usuario;
-						HttpSession sesion = request.getSession();
-						if (sesion.getAttribute("usuario") == null) //Se verifica si existe la variable
-						{
-							%>
-							<jsp:forward page="login.jsp">
-							<jsp:param name="error" value="Debe registrarse en el sistema."/>
-							</jsp:forward>
-							<%
-						}
-						else
-						{
-						usuario=(String)sesion.getAttribute("usuario"); //Se devuelve los valores de atributos
-						int perfil=(Integer)sesion.getAttribute("perfil");
-						%>
-							<h1>Sitio Privado de Productos</h1>
-							<h4>Bienvenido
+		       		
+							<h1>Sitio Privado de Empleados</h1>
+							<h4>Bienvenido Empleado: 
 								<%
 									out.println(usuario);
 								%>
 							</h4>
-						<%
-							Pagina pag=new Pagina();
-							String menu=pag.mostrarMenu(perfil);
-							out.print(menu);
-						%>
+						
 						<%}%>
 		      </section>
             
