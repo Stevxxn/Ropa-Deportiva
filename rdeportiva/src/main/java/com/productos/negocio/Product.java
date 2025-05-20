@@ -72,7 +72,7 @@ public class Product {
 	}	
 
 	public String mostrarCategoria(){
-		String combo="<select name=cmbCategoria>";
+		String combo="<select class=form-select name=cmbCategoria>";
 		String sql="SELECT * FROM tb_categoria";
 		ResultSet rs=null;
 		Conexion con=new Conexion();
@@ -107,4 +107,51 @@ public class Product {
 		return resultado;
 	}
 	
+	public String reporteProducto() {
+		String sql = "select pr.id_pr, pr.nombre_pr, cat.descripcion_cat, pr.cantidad_pr, pr.precio_pr"
+				+ "from tb_producto pr, tb_categoria cat where pr.id_cat=cat.id_cat";
+		Conexion con = new Conexion();
+		String tabla="<table class=table>"
+				+ "				    <thead>"
+				+ "				    	<tr>"
+				+ "				    	    <th scope=\"col\">ID</th>"
+				+ "				    	    <th scope=\"col\">Nombre</th>"
+				+ "				    	    <th scope=\"col\">Categoria</th>"
+				+ "				    	    <th scope=\"col\">Cantidad</th>"
+				+ "				    	    <th scope=\"col\">Precio</th>"
+				+ "				    	    <th scope=\"col\">Actualizar</th>"
+				+ "				    	    <th scope=\"col\">Eliminar</th>"
+				+ "				        </tr>"
+				+ "					</thead>"
+				+ "					<tbody>";
+		ResultSet rs = null;
+		rs=con.Consulta(sql);
+		try {
+			while(rs.next())
+			{
+				tabla+="<tr>"
+				+ "			<th scope=\"row\">"+rs.getInt(1)+">1</th>"
+				+ "			<td>"+rs.getString(2)+"</td>"
+				+ "			<td>"+rs.getString(3)+"</td>"
+				+ "			<td>"+rs.getInt(4)+"</td>"
+				+ "			<td>"+rs.getDouble(5)+"</td>"
+				+ "			<td><a href=actualizar.jsp?id="+rs.getInt(1)+"> Actualizar</a></td>"
+				+ "			<td><a href=eliminar.jsp?id="+rs.getInt(1)+"> Eliminar</a></td>"
+				+ "		</tr>";
+			
+			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.print(e.getMessage());
+			}
+			tabla+="</tbody></table>";	
+			return tabla;
+	}
+	
+	public String eliminarProducto(String id) {
+		String sql="DELETE FROM tb_producto WHERE id_pr="+id;
+		Conexion con=new Conexion();
+		String resultado=con.Ejecutar(sql);
+		return resultado;
+	}
 }

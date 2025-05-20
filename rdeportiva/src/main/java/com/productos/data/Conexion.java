@@ -32,9 +32,9 @@ public class Conexion
 	
 	public Conexion() {
 	    this.driver = "org.postgresql.Driver";
-	    this.user = "alumno";
+	    this.user = "postgres";
 	    this.pwd = "1234";
-	    this.cadena = "jdbc:postgresql://172.17.44.163:5432/bd_rdeportiva";
+	    this.cadena = "jdbc:postgresql://localhost:5432/bd_products";
 	    this.con = this.crearConexion();
 	    
 	    if (this.con == null) {

@@ -31,9 +31,8 @@
 		          	String tabla = pro.buscarProductoCategoria(cat);
 		          	out.print(tabla);
 		          %>
-		 
-		 
-		      </section>
+		          <input type="button" value="Regresar" onclick="history.back()">
+		        </section>
             
             <aside>
                 <a href="https://www.linkedin.com/in/steven-parra-02516b32b">Ver más información sobre los desarrolladores</a></br>
