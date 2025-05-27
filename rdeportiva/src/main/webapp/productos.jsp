@@ -29,33 +29,42 @@
                 <h3>Registro de usuarios vendedores y administradores</h3>
 			    <form action="ingresarProducto.jsp" method="get">
 				    <div class="form-floating mb-3">
-					  <input type="text" class="form-control" id="floatingInput" name="txtNombre" required/>
+					  <input type="text" class="form-control" id="floatingInput" name="txtNombre" />
 					  <label for="floatingInput">Nombre </label>
 					</div>
 					<div class="mb-3">
-						<label for="Categoria" class="form-label">Categoria</label>
-						<%
-							Product cat = new Product();
-							out.print(cat.mostrarCategoria());
-						%>
+						<label for="Categoria" class="form-label" >Categoria</label>
+						<select class="form-select" name="cmbCategoria">
+						  <option selected>Seleccione una opción</option>
+						  <option value="1">Jovenes</option>
+						  <option value="2">Adultos</option>
+						  <option value="3">Niños</option>
+						</select>
 					</div>
 					<div class="mb-3">
                       <label for="Cantidad" class="form-label">Cantidad</label>
-                      <input type="number" class="form-control" id="Cantidad" name="txtCantidad" required/>
+                      <input type="number" class="form-control" id="Cantidad" name="txtCantidad"/>
 					</div>
 					<div class="mb-3">
                       <label for="Precio" class="form-label">Precio</label>
-                      <input type="number" class="form-control" id="Precio" name="txtPrecio" required/>
+                      <input type="number" class="form-control" id="Precio" name="txtPrecio"/>
                     </div>
                     <div class="mb-3">
                       <label for="Foto" class="form-label">Foto</label>
-                      <input type="file" class="form-control" id="Foto" name="imgFoto" required/>
+                      <input type="file" class="form-control" id="Foto" name="imgFoto"/>
                     </div>
-					<button type="SUBMIT" class="btn btn-primary">Primary</button>
+					<button type="SUBMIT" class="btn btn-primary">Ingresar Producto</button>
+					<button type="RESET" class="btn btn-secondary">Limpiar</button>
 				</form>
 				
 				<!-- Tabla -->
+				<h3 class="mt-5 mb-3">Listado de Productos</h3>
+				<%
 				
+					Product pr = new Product();
+                    out.println(pr.reporteProducto());
+				
+				%>
 				
             </section>
             

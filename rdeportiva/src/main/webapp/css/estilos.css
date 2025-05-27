@@ -101,3 +101,39 @@ nav a.active {
 	border: 5px solid black;
     display: inline-block;
 }
+
+.confirmation-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .button {
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .confirm-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .cancel-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+        .product-details {
+            margin: 15px 0;
+            text-align: left;
+            padding-left: 20%;
+        }

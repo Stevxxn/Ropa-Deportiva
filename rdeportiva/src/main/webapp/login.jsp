@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Activo Sportwear</title>
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
     <main>
@@ -25,27 +26,48 @@
         
         <div class="agrupar">
 		       <section> 
-		       <article>
-		       		<h3>Ingresar al sistema</h3>
-				<form action="validarLogin.jsp" method="post">
-			        <table border="1">
-			            <tr>
-			                <td>Correo electrónico</td>
-			                <td><input type="text"name = "usuario" required />*</td>
-			            </tr>
-			            <tr>
-			                <td>Clave</td>
-			                <td><input type="password" id="clave"  name="clave" required/>*</td>
-			            </tr>
-			            <tr>
-			                <td colspan="2">*campo obligatorio</td> <!-- Para colapsar dos columnas-->
-			            </tr>
-			            <tr> <td><input type="submit" name="btnEnviar" id="btnEnviar" value="Enviar"/></td>
-			            <td><input type="reset" name="btnDelete" id="btnDelete" value="Borrar"/></td></tr>
-			        </table>
-			    </form>
-		        	<a href="registro.jsp">Registrarse</a>
-		       </article>
+			       <div class="container mt-5">
+					    <div class="row justify-content-center">
+					        <div class="col-md-6 col-lg-4">
+					            <article class="card shadow-sm">
+					                <div class="card-header bg-primary text-white">
+					                    <h3 class="h4 mb-0 text-center">Ingresar al sistema</h3>
+					                </div>
+					                
+					                <div class="card-body">
+					                    <form action="validarLogin.jsp" method="post">
+					                        <div class="mb-3">
+					                            <label for="usuario" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+					                            <input type="email" class="form-control" id="usuario" name="usuario" required>
+					                        </div>
+					                        
+					                        <div class="mb-4">
+					                            <label for="clave" class="form-label">Clave <span class="text-danger">*</span></label>
+					                            <input type="password" class="form-control" id="clave" name="clave" required>
+					                        </div>
+					                        
+					                        <div class="mb-3 form-text text-muted">
+					                            <small>* Campos obligatorios</small>
+					                        </div>
+					                        
+					                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+					                            <button type="submit" class="btn btn-primary me-md-2" id="btnEnviar">
+					                                <i class="bi bi-box-arrow-in-right"></i> Enviar
+					                            </button>
+					                            <button type="reset" class="btn btn-outline-secondary" id="btnDelete">
+					                                <i class="bi bi-eraser"></i> Borrar
+					                            </button>
+					                        </div>
+					                    </form>
+					                    
+					                    <div class="text-center mt-3">
+					                        <a href="registro.jsp" class="btn btn-link">¿No tienes cuenta? Regístrate aquí</a>
+					                    </div>
+					                </div>
+					            </article>
+					        </div>
+					    </div>
+					</div>
                
 		      </section>
 
