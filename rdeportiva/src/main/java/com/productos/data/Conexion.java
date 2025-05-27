@@ -98,4 +98,8 @@ public class Conexion
 	}
 	return(reg);
 	}
+	public static Connection getCon() {
+		Conexion con = new Conexion();
+		return con.getConexion();
+	}
 }

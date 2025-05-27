@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
 %>
+<%@page import="com.productos.seguridad.Usuario"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,51 +26,63 @@
         </nav>
         
         <div class="agrupar">
-		       <section> 
-			       <div class="container mt-5">
-					    <div class="row justify-content-center">
-					        <div class="col-md-6 col-lg-4">
-					            <article class="card shadow-sm">
-					                <div class="card-header bg-primary text-white">
-					                    <h3 class="h4 mb-0 text-center">Ingresar al sistema</h3>
-					                </div>
-					                
-					                <div class="card-body">
-					                    <form action="validarLogin.jsp" method="post">
-					                        <div class="mb-3">
-					                            <label for="usuario" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-					                            <input type="email" class="form-control" id="usuario" name="usuario" required>
-					                        </div>
-					                        
-					                        <div class="mb-4">
-					                            <label for="clave" class="form-label">Clave <span class="text-danger">*</span></label>
-					                            <input type="password" class="form-control" id="clave" name="clave" required>
-					                        </div>
-					                        
-					                        <div class="mb-3 form-text text-muted">
-					                            <small>* Campos obligatorios</small>
-					                        </div>
-					                        
-					                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-					                            <button type="submit" class="btn btn-primary me-md-2" id="btnEnviar">
-					                                <i class="bi bi-box-arrow-in-right"></i> Enviar
-					                            </button>
-					                            <button type="reset" class="btn btn-outline-secondary" id="btnDelete">
-					                                <i class="bi bi-eraser"></i> Borrar
-					                            </button>
-					                        </div>
-					                    </form>
-					                    
-					                    <div class="text-center mt-3">
-					                        <a href="registro.jsp" class="btn btn-link">¿No tienes cuenta? Regístrate aquí</a>
-					                    </div>
-					                </div>
-					            </article>
-					        </div>
-					    </div>
-					</div>
-               
-		      </section>
+            <section> 
+			    <div class="container mt-5">
+			        <div class="row justify-content-center">
+			            <div class="col-md-6 col-lg-4">
+			                <div class="card shadow-sm">
+			                    <div class="card-header bg-primary text-white text-center">
+			                        <h3 class="h4 mb-0">Ingresar al sistema</h3>
+			                    </div>
+			                    
+			                    <div class="card-body">
+			                        <%-- Mensajes de error --%>
+			                        <% if(request.getParameter("error") != null) { %>
+			                            <div class="alert alert-danger mb-3">
+			                                <% 
+			                                    String error = request.getParameter("error");
+			                                    if("credenciales".equals(error)) {
+			                                        out.print("Usuario o contraseña incorrectos");
+			                                    } else if("bloqueado".equals(error)) {
+			                                        out.print("Su cuenta está bloqueada. Contacte al administrador.");
+			                                    } else if("perfil".equals(error)) {
+			                                        out.print("No tiene permisos para acceder.");
+			                                    }
+			                                %>
+			                            </div>
+			                        <% } %>
+			                        
+			                        <form action="validarLogin.jsp" method="post">
+			                            <div class="mb-3">
+			                                <label for="usuario" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+			                                <input type="email" class="form-control" id="usuario" name="usuario" required>
+			                            </div>
+			                            
+			                            <div class="mb-3">
+			                                <label for="clave" class="form-label">Clave <span class="text-danger">*</span></label>
+			                                <input type="password" class="form-control" id="clave" name="clave" required>
+			                            </div>
+			                            
+			                            <div class="mb-3 form-text">
+			                                <small class="text-muted">* Campos obligatorios</small>
+			                            </div>
+			                            
+			                            <div class="d-grid gap-2">
+			                                <button type="submit" class="btn btn-primary" id="btnEnviar">
+			                                    <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+			                                </button>
+			                                <button type="reset" class="btn btn-outline-secondary" id="btnDelete" href = "login.jsp">
+			                                    <i class="bi bi-eraser"></i> Limpiar
+			                                </button>
+			                            </div>
+			                        </form>
+			                        
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</section>
 
             <aside>
                 <a href="https://www.linkedin.com/in/steven-parra-02516b32b">Ver más información sobre los desarrolladores</a></br>
@@ -80,11 +93,11 @@
         <footer>
             <ul>
                 <li><a href="https://www.facebook.com/stevenalexis.bautistaleon/" target="_blank">
-                	<img src="icons/facebook.png" width="30" height="30" alt="icono de facebook"/></a></li>
+                    <img src="icons/facebook.png" width="30" height="30" alt="icono de facebook"/></a></li>
                 <li><a href="https://www.instagram.com/_stevxxn/" target="_blank">
-                	<img src="icons/instagram.png" width="30" height="30" alt="icono de instagram"/></a></li>
+                    <img src="icons/instagram.png" width="30" height="30" alt="icono de instagram"/></a></li>
                 <li><a href="https://www.tiktok.com/@_stevxxn" target="_blank">
-                	<img src="icons/tik-tok.png" width="30" height="30" alt="icono de tiktok"/></a></li>
+                    <img src="icons/tik-tok.png" width="30" height="30" alt="icono de tiktok"/></a></li>
             </ul>
             <p><a href="https://maps.app.goo.gl/N1hiiY9HRbSv2oEz7" target="_blank">Ver nuestra ubicación en el mapa</a></br></p>
         </footer>
