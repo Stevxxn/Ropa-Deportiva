@@ -1,6 +1,7 @@
 package com.productos.seguridad;
 
 import java.sql.*;
+import java.util.*;
 
 import com.productos.data.Conexion;
 
@@ -12,12 +13,13 @@ public class Usuario {
 	private String nombre;
 	private String correo;
 	private String clave;
+	private boolean activo;
 	
 	public Usuario() {
 	
 	}
 	
-	public Usuario(Integer perfil, int estadoCivil, String cedula, String nombre, String correo, String clave) {
+	public Usuario(Integer perfil, int estadoCivil, String cedula, String nombre, String correo, String clave, boolean activo) {
 		super();
 		this.perfil = perfil;
 		this.estadoCivil = estadoCivil;
@@ -25,6 +27,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.correo = correo;
 		this.clave = clave;
+		this.activo = activo;
 	}
 	
 	public String getNombre() {
@@ -75,31 +78,49 @@ public class Usuario {
 		this.perfil = perfil;
 	}
 	
-	public boolean verificarUsuario(String ncorreo, String nclave){
-		boolean respuesta=false;
-		String sentencia= "Select * from tb_usuario where correo_us='"+ncorreo+
-		"' and clave_us='"+nclave+"';";
-		//System.out.print(sentencia);
-		try{
-			ResultSet rs;
-			Conexion clsCon=new Conexion();
-			rs=clsCon.Consulta(sentencia);
-			if(rs.next()){
-				respuesta=true;
-				this.setCorreo(ncorreo);
-				this.setClave(nclave);
-				this.setPerfil(rs.getInt(2));
-				this.setNombre(rs.getString(4));
-			}else{
-				respuesta=false;
-				rs.close();
-			}
-		}
-			catch(Exception ex)
-		{
-			System.out.println( ex.getMessage());
-		}
-			return respuesta;
+	public int getId() {
+	    return id;
+	}
+
+	public void setId(int id) {
+	    this.id = id;
+	}
+
+	public boolean isActivo() {
+	    // Asumiendo que en tu base de datos activo es un booleano (1/0 o true/false)
+	    // Si es un entero, puedes usar: return estado == 1;
+	    return this.activo;
+	}
+
+	public void setActivo(boolean activo) {
+	    this.activo = activo;
+	}
+	
+	// Método para verificar credenciales y devolver usuario completo
+	public Usuario verificarUsuario(String ncorreo, String nclave) {
+	    Usuario usuario = null;
+	    String sql = "SELECT * FROM tb_usuario WHERE correo_us = ? AND clave_us = ?";
+	    
+	    try (Connection conn = Conexion.getCon();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, ncorreo);
+	        pstmt.setString(2, nclave);
+	        
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if(rs.next()) {
+	                usuario = new Usuario();
+	                usuario.setId(rs.getInt("id_us"));
+	                usuario.setPerfil(rs.getInt("id_per"));
+	                usuario.setNombre(rs.getString("nombre_us"));
+	                usuario.setCorreo(rs.getString("correo_us"));
+	                usuario.setActivo(rs.getBoolean("activo_us"));
+	            }
+	        }
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	    return usuario;
 	}
 	
 	public String ingresarCliente()
@@ -108,8 +129,8 @@ public class Usuario {
 		Conexion con=new Conexion();
 		PreparedStatement pr=null;
 		String sql="INSERT INTO tb_usuario (id_per, id_est, nombre_us,"
-		+ "cedula_us,correo_us,clave_us) "
-		+ "VALUES(?,?,?,?,?,?)";
+		+ "cedula_us,correo_us,clave_us,activo_us) "
+		+ "VALUES(?,?,?,?,?,?,?)";
 		try{
 			pr=con.getConexion().prepareStatement(sql);
 			pr.setInt(1,2);
@@ -118,6 +139,7 @@ public class Usuario {
 			pr.setString(4, this.getCedula());
 			pr.setString(5, this.getCorreo());
 			pr.setString(6, this.getClave());
+			pr.setBoolean(7, this.isActivo());
 			if(pr.executeUpdate()==1){
 				result="Insercion correcta";
 			}else{
@@ -168,14 +190,13 @@ public class Usuario {
 		return usuario;
 	}
 	
-	public Boolean ingresarEmpleado(Integer nperfil, int nestado, String ncedula, String nnombre, String ncorreo) {
+	public Boolean ingresarEmpleado(Integer nperfil, int nestado, String ncedula, String nnombre, String ncorreo, boolean activo) {
 		String result="";
 		Boolean respuesta=false;
 		Conexion con=new Conexion();
 		PreparedStatement pr=null;
-		String sql="INSERT INTO tb_usuario (id_per, id_est, nombre_us,"
-		+ "cedula_us,correo_us,clave_us) "
-		+ "VALUES(?,?,?,?,?,?)";
+		String sql="INSERT INTO tb_usuario (id_per, id_est, nombre_us, cedula_us, correo_us, clave_us, activo_us) "
+				+ "VALUES(?,?,?,?,?,?,?)";
 		try{
 			pr=con.getConexion().prepareStatement(sql);
 			pr.setInt(1,nperfil);
@@ -184,6 +205,7 @@ public class Usuario {
 			pr.setString(4, ncedula);
 			pr.setString(5, ncorreo);
 			pr.setString(6, this.getClave());
+			pr.setBoolean(7, activo);
 			if(pr.executeUpdate()==1){
 				System.out.println("Insercion correcta");
 				respuesta=true;
@@ -278,5 +300,94 @@ public class Usuario {
 		}
 		return respuesta;
 	}
+	
+	// Método para obtener todos los usuarios (para el administrador)
+	public static List<Usuario> obtenerTodosUsuarios() {
+	    List<Usuario> usuarios = new ArrayList<>();
+	    String sql = "SELECT * FROM tb_usuario";
+	    
+	    try (Connection conn = Conexion.getCon();
+	         Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+	        
+	        while(rs.next()) {
+	            Usuario usuario = new Usuario();
+	            usuario.setId(rs.getInt("id_us"));
+	            usuario.setPerfil(rs.getInt("id_per"));
+	            usuario.setEstado(rs.getInt("id_est"));
+	            usuario.setCedula(rs.getString("cedula_us"));
+	            usuario.setNombre(rs.getString("nombre_us"));
+	            usuario.setCorreo(rs.getString("correo_us"));
+	            usuario.setActivo(rs.getBoolean("activo_us")); // Asume que el campo se llama "activo"
+	            usuarios.add(usuario);
+	        }
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	    return usuarios;
+	}
 
+	// Método para cambiar estado activo/inactivo
+	public static boolean cambiarEstadoUsuario(int idUsuario, boolean activo) {
+	    String sql = "UPDATE tb_usuario SET activo_us = ? WHERE id_us = ?";
+	    
+	    try (Connection conn = Conexion.getCon();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setBoolean(1, activo);
+	        pstmt.setInt(2, idUsuario);
+	        
+	        return pstmt.executeUpdate() > 0;
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	// Método para actualizar la información de un usuario
+	public static boolean actualizarUsuario(Usuario usuario) {
+	    String sql = "UPDATE tb_usuario SET id_per = ?, id_est = ?, nombre_us = ?, " +
+	                 "cedula_us = ?, correo_us = ? WHERE id_us = ?";
+	    
+	    try (Connection conn = Conexion.getCon();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setInt(1, usuario.getPerfil());
+	        pstmt.setInt(2, usuario.getEstado());
+	        pstmt.setString(3, usuario.getNombre());
+	        pstmt.setString(4, usuario.getCedula());
+	        pstmt.setString(5, usuario.getCorreo());
+	        pstmt.setInt(6, usuario.getId());
+	        
+	        return pstmt.executeUpdate() > 0;
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public Usuario buscarUsuarioPorCorreo(String correo) {
+	    Usuario usuario = null;
+	    String sql = "SELECT * FROM tb_usuario WHERE correo_us = ?";
+	    
+	    try (Connection conn = Conexion.getCon();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, correo);
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if(rs.next()) {
+	                usuario = new Usuario();
+	                usuario.setId(rs.getInt("id_us"));
+	                usuario.setPerfil(rs.getInt("id_per"));
+	                usuario.setEstado(rs.getInt("id_est"));
+	                usuario.setCedula(rs.getString("cedula_us"));
+	                usuario.setNombre(rs.getString("nombre_us"));
+	                usuario.setCorreo(rs.getString("correo_us"));
+	                usuario.setActivo(rs.getBoolean("activo_us"));
+	            }
+	        }
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	    return usuario;
+	}
 }
