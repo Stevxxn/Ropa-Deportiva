@@ -51,9 +51,9 @@
         </header>
         
         <nav>
-            <a href="../index.jsp">Home</a>
-            <a href="../consulta.jsp">Ver Productos</a>
-            <a href="../categoria.jsp">Buscar Por Categoría</a>
+            <a href="#" onclick="window.history.back(); return false;">Volver atrás</a>
+            <a href="menu.jsp">Menú</a>
+            <a href="../cerrarSesion.jsp">Cerrar Sesion</a>
         </nav>
         
         <div class="agrupar">
