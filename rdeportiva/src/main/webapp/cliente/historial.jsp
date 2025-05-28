@@ -23,49 +23,98 @@
         </header>
         
         <nav>
-            <a href="../index.jsp">Home</a>
-            <a href="../consulta.jsp">Ver Productos</a>
-            <a href="../categoria.jsp">Buscar Por Categoría</a>
+            <a href="#" onclick="window.history.back(); return false;">Volver atrás</a>
+            <a href="menu.jsp">Menú</a>
+            <a href="../cerrarSesion.jsp">Cerrar Sesion</a>
         </nav>
         
         <div class="agrupar">
             <section> 
-			    <h2>Historial de Compras</h2>
-    
-			    <% if (historial == null || historial.isEmpty()) { %>
-			        <p>No has realizado ninguna compra aún.</p>
-			    <% } else { %>
-			        <% for (Compra compra : historial) { %>
-			        <div style="margin-bottom: 20px;">
-			            <table>
-			                <tr class="compra-header">
-			                    <th colspan="4">
-			                        Compra realizada el: <%= sdf.format(compra.getFecha()) %> | 
-			                        Estado: <%= compra.getEstado() %> | 
-			                        Total: $<%= String.format("%.2f", compra.getTotal()) %>
-			                    </th>
-			                </tr>
-			                <tr>
-			                    <th>Producto</th>
-			                    <th>Precio Unitario</th>
-			                    <th>Cantidad</th>
-			                    <th>Subtotal</th>
-			                </tr>
-			                <% for (ItemCarrito item : compra.getItems()) { %>
-			                <tr>
-			                    <td><%= item.getProducto().getNombre() %></td>
-			                    <td>$<%= String.format("%.2f", item.getProducto().getPrecio()) %></td>
-			                    <td><%= item.getCantidad() %></td>
-			                    <td>$<%= String.format("%.2f", item.getProducto().getPrecio() * item.getCantidad()) %></td>
-			                </tr>
-			                <% } %>
-			            </table>
-			        </div>
-			        <% } %>
-			    <% } %>
-			    
-			    <br>
-			    <a href="consulta.jsp">Volver a la tienda</a>
+			    <div class="container mt-4">
+				    <div class="card shadow">
+				        <div class="card-header bg-primary text-white">
+				            <h2 class="h4 mb-0">Historial de Compras</h2>
+				        </div>
+				        
+				        <div class="card-body">
+				            <% if (historial == null || historial.isEmpty()) { %>
+				                <div class="text-center py-5">
+				                    <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
+				                    <h3 class="h5 mt-3">No has realizado ninguna compra aún</h3>
+				                    <p class="text-muted">Comienza a explorar nuestros productos</p>
+				                    <a href="consulta.jsp" class="btn btn-primary">
+				                        <i class="bi bi-shop"></i> Ir a la tienda
+				                    </a>
+				                </div>
+				            <% } else { %>
+				                <div class="accordion" id="historialAccordion">
+				                    <% for (int i = 0; i < historial.size(); i++) { 
+				                        Compra compra = historial.get(i); 
+				                    %>
+				                    <div class="accordion-item mb-3 border">
+				                        <h2 class="accordion-header" id="heading<%= i %>">
+				                            <button class="accordion-button collapsed" type="button" 
+				                                    data-bs-toggle="collapse" data-bs-target="#collapse<%= i %>" 
+				                                    aria-expanded="false" aria-controls="collapse<%= i %>">
+				                                <div class="d-flex justify-content-between w-100">
+				                                    <span>
+				                                        <i class="bi bi-receipt"></i> Compra #<%= i+1 %>
+				                                    </span>
+				                                    <span class="badge <%= compra.getEstado().equals("Completado") ? "bg-success" : "bg-warning text-dark" %>">
+				                                        <%= compra.getEstado() %>
+				                                    </span>
+				                                </div>
+				                            </button>
+				                        </h2>
+				                        <div id="collapse<%= i %>" class="accordion-collapse collapse" 
+				                             aria-labelledby="heading<%= i %>" data-bs-parent="#historialAccordion">
+				                            <div class="accordion-body">
+				                                <div class="d-flex justify-content-between mb-3">
+				                                    <div>
+				                                        <strong>Fecha:</strong> <%= sdf.format(compra.getFecha()) %>
+				                                    </div>
+				                                    <div>
+				                                        <strong>Total:</strong> $<%= String.format("%.2f", compra.getTotal()) %>
+				                                    </div>
+				                                </div>
+				                                
+				                                <div class="table-responsive">
+				                                    <table class="table table-sm">
+				                                        <thead class="table-light">
+				                                            <tr>
+				                                                <th>Producto</th>
+				                                                <th class="text-end">Precio Unitario</th>
+				                                                <th class="text-center">Cantidad</th>
+				                                                <th class="text-end">Subtotal</th>
+				                                            </tr>
+				                                        </thead>
+				                                        <tbody>
+				                                            <% for (ItemCarrito item : compra.getItems()) { %>
+				                                            <tr>
+				                                                <td><%= item.getProducto().getNombre() %></td>
+				                                                <td class="text-end">$<%= String.format("%.2f", item.getProducto().getPrecio()) %></td>
+				                                                <td class="text-center"><%= item.getCantidad() %></td>
+				                                                <td class="text-end">$<%= String.format("%.2f", item.getProducto().getPrecio() * item.getCantidad()) %></td>
+				                                            </tr>
+				                                            <% } %>
+				                                        </tbody>
+				                                    </table>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div>
+				                    <% } %>
+				                </div>
+				                
+				                <div class="mt-4 text-center">
+				                    <a href="consulta.jsp" class="btn btn-outline-primary">
+				                        <i class="bi bi-arrow-left"></i> Volver a la tienda
+				                    </a>
+				                </div>
+				            <% } %>
+				        </div>
+				    </div>
+				</div>
 			</section>
 
             <aside>

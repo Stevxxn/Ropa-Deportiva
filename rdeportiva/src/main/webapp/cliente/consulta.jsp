@@ -22,28 +22,61 @@
         </header>
         
         <nav>
-            <a href="../index.jsp">Home</a>
-            <a href="../consulta.jsp">Ver Productos</a>
-            <a href="../categoria.jsp">Buscar Por Categoría</a>
+            <a href="#" onclick="window.history.back(); return false;">Volver atrás</a>
+            <a href="menu.jsp">Menú</a>
+            <a href="../cerrarSesion.jsp">Cerrar Sesion</a>
         </nav>
         
         <div class="agrupar">
             <section> 
-			    <h1>Productos Disponibles</h1>
-    
-			    <%= producto.consultarTodo() %>
-			    
-			    <h2>Agregar al Carrito</h2>
-			    <form action="carrito.jsp" method="post">
-			        <input type="hidden" name="action" value="add">
-			        ID del Producto: <input type="number" name="id" min="1" required><br>
-			        Cantidad: <input type="number" name="cantidad" min="1" value="1" required><br>
-			        <button type="submit">Agregar al Carrito</button>
-			    </form>
-			    
-			    <br>
-			    <a href="carrito.jsp">Ver Carrito</a> | 
-			    <a href="historial.jsp">Ver Historial de Compras</a>
+			    <div class="container mt-4">
+				    <div class="card shadow">
+				        <div class="card-header bg-primary text-white">
+				            <h1 class="h4 mb-0">Productos Disponibles</h1>
+				        </div>
+				        
+				        <div class="card-body">
+				            <!-- Tabla de productos (generada por producto.consultarTodo()) -->
+				            <%= producto.consultarTodo() %>
+				            
+				            <div class="card mt-4">
+				                <div class="card-header bg-light">
+				                    <h2 class="h5 mb-0">Agregar al Carrito</h2>
+				                </div>
+				                <div class="card-body">
+				                    <form action="carrito.jsp" method="post" class="row g-3">
+				                        <input type="hidden" name="action" value="add">
+				                        
+				                        <div class="col-md-6">
+				                            <label for="idProducto" class="form-label">ID del Producto</label>
+				                            <input type="number" class="form-control" id="idProducto" name="id" min="1" required>
+				                        </div>
+				                        
+				                        <div class="col-md-6">
+				                            <label for="cantidad" class="form-label">Cantidad</label>
+				                            <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" value="1" required>
+				                        </div>
+				                        
+				                        <div class="col-12">
+				                            <button type="submit" class="btn btn-success">
+				                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+				                            </button>
+				                        </div>
+				                    </form>
+				                </div>
+				            </div>
+				            
+				            <div class="d-flex justify-content-between mt-4">
+				                <a href="carrito.jsp" class="btn btn-outline-primary">
+				                    <i class="bi bi-cart"></i> Ver Carrito
+				                </a>
+				                <a href="historial.jsp" class="btn btn-outline-secondary">
+				                    <i class="bi bi-clock-history"></i> Ver Historial de Compras
+				                </a>
+				            </div>
+				        </div>
+				    </div>
+				</div>
 			</section>
 
             <aside>

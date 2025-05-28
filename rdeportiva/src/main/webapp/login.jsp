@@ -27,61 +27,55 @@
         
         <div class="agrupar">
             <section> 
-			    <div class="container mt-5">
-			        <div class="row justify-content-center">
-			            <div class="col-md-6 col-lg-4">
-			                <div class="card shadow-sm">
-			                    <div class="card-header bg-primary text-white text-center">
-			                        <h3 class="h4 mb-0">Ingresar al sistema</h3>
-			                    </div>
-			                    
-			                    <div class="card-body">
-			                        <%-- Mensajes de error --%>
-			                        <% if(request.getParameter("error") != null) { %>
-			                            <div class="alert alert-danger mb-3">
-			                                <% 
-			                                    String error = request.getParameter("error");
-			                                    if("credenciales".equals(error)) {
-			                                        out.print("Usuario o contraseña incorrectos");
-			                                    } else if("bloqueado".equals(error)) {
-			                                        out.print("Su cuenta está bloqueada. Contacte al administrador.");
-			                                    } else if("perfil".equals(error)) {
-			                                        out.print("No tiene permisos para acceder.");
-			                                    }
-			                                %>
-			                            </div>
-			                        <% } %>
-			                        
-			                        <form action="validarLogin.jsp" method="post">
-			                            <div class="mb-3">
-			                                <label for="usuario" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-			                                <input type="email" class="form-control" id="usuario" name="usuario" required>
-			                            </div>
-			                            
-			                            <div class="mb-3">
-			                                <label for="clave" class="form-label">Clave <span class="text-danger">*</span></label>
-			                                <input type="password" class="form-control" id="clave" name="clave" required>
-			                            </div>
-			                            
-			                            <div class="mb-3 form-text">
-			                                <small class="text-muted">* Campos obligatorios</small>
-			                            </div>
-			                            
-			                            <div class="d-grid gap-2">
-			                                <button type="submit" class="btn btn-primary" id="btnEnviar">
-			                                    <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
-			                                </button>
-			                                <button type="reset" class="btn btn-outline-secondary" id="btnDelete" href = "login.jsp">
-			                                    <i class="bi bi-eraser"></i> Limpiar
-			                                </button>
-			                            </div>
-			                        </form>
-			                        
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+			    <div class="card-body">
+				    <%-- Mensajes de error --%>
+				    <% if(request.getParameter("error") != null) { %>
+				        <div class="alert alert-danger mb-3">
+				            <% 
+				                String error = request.getParameter("error");
+				                if("credenciales".equals(error)) {
+				                    out.print("Usuario o contraseña incorrectos");
+				                } else if("bloqueado".equals(error)) {
+				                    out.print("Su cuenta está bloqueada. Contacte al administrador.");
+				                } else if("perfil".equals(error)) {
+				                    out.print("No tiene permisos para acceder.");
+				                }
+				            %>
+				        </div>
+				    <% } %>
+				    
+				    <form action="validarLogin.jsp" method="post">
+				        <div class="mb-3">
+				            <label for="usuario" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+				            <input type="email" class="form-control" id="usuario" name="usuario" required>
+				        </div>
+				        
+				        <div class="mb-3">
+				            <label for="clave" class="form-label">Clave <span class="text-danger">*</span></label>
+				            <input type="password" class="form-control" id="clave" name="clave" required>
+				        </div>
+				        
+				        <div class="mb-3 form-text">
+				            <small class="text-muted">* Campos obligatorios</small>
+				        </div>
+				        
+				        <div class="d-grid gap-2">
+				            <button type="submit" class="btn btn-primary" id="btnEnviar">
+				                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+				            </button>
+				            <button type="reset" class="btn btn-outline-secondary" id="btnDelete">
+				                <i class="bi bi-eraser"></i> Limpiar
+				            </button>
+				        </div>
+				        
+				        <!-- Nuevo: Enlace para registro -->
+				        <div class="text-center mt-3 pt-2 border-top">
+				            <p class="small">¿No tienes una cuenta? 
+				                <a href="registro.jsp" class="text-primary">Regístrate aquí</a>
+				            </p>
+				        </div>
+				    </form>
+				</div>
 			</section>
 
             <aside>
