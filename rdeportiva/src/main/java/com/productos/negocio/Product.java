@@ -97,6 +97,13 @@ public class Product {
 		}
 		return combo;
 	}
+	public ResultSet consultarProductos() {
+	    String sql = "SELECT p.id_pr, p.nombre_pr, c.descripcion_cat, p.cantidad_pr, p.precio_pr, p.foto_pr " +
+	                 "FROM tb_producto p JOIN tb_categoria c ON p.id_cat = c.id_cat " +
+	                 "ORDER BY p.id_pr ASC";
+	    Conexion con = new Conexion();
+	    return con.Consulta(sql);
+	}
 	
 	public String buscarProductoCategoria(int cat){
 		String sentencia="SELECT nombre_pr, precio_pr FROM tb_producto WHERE id_cat="+cat;
@@ -292,6 +299,35 @@ public class Product {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public Product obtenerProducto(int id) {
+        String sql = "SELECT * FROM tb_producto WHERE id_pr = " + id;
+        Conexion con = new Conexion();
+        ResultSet rs = con.Consulta(sql);
+        try {
+            if (rs.next()) {
+                Product producto = new Product();
+                producto.setId(rs.getInt("id_pr"));
+                producto.setId_cat(rs.getInt("id_cat"));
+                producto.setNombre(rs.getString("nombre_pr"));
+                producto.setCantidad(rs.getInt("cantidad_pr"));
+                producto.setPrecio(rs.getFloat("precio_pr"));
+                return producto;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    // Método para actualizar el stock después de una compra
+    public boolean actualizarStock(int idProducto, int cantidadVendida) {
+        String sql = "UPDATE tb_producto SET cantidad_pr = cantidad_pr - " + cantidadVendida + 
+                    " WHERE id_pr = " + idProducto;
+        Conexion con = new Conexion();
+        String resultado = con.Ejecutar(sql);
+        return resultado.equals("Ok");
     }
     
 }
