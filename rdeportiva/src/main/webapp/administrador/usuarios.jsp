@@ -18,10 +18,6 @@
                 boolean nuevoEstado = request.getParameter("estado").equals("activar");
                 Usuario.cambiarEstadoUsuario(idUsuario, nuevoEstado);
                 break;
-                
-            case "eliminar":
-                // Implementar eliminación si es necesario
-                break;
         }
     }
 %>
